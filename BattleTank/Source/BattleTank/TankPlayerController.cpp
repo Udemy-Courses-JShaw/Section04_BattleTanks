@@ -3,6 +3,7 @@
 #include "TankPlayerController.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Engine/Engine.h"
+#include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/Actor.h"
 
@@ -25,7 +26,6 @@ void ATankPlayerController::BeginPlay()
 void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
 	AimAtCrosshair();
 }
 
@@ -41,7 +41,7 @@ void ATankPlayerController::AimAtCrosshair()
 	FVector HitLocation; //OUT parameter
 	if (GetSightRayHitLocation(HitLocation))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s: "), *HitLocation.ToString())
+		UE_LOG(LogTemp, Warning, TEXT("Hit Location: %s: "), *HitLocation.ToString())
 		//TODO tell controlled tank to aim at this point
 	}
 	//TODO: Complete AimAtCrosshair
@@ -51,17 +51,48 @@ void ATankPlayerController::AimAtCrosshair()
 bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 {
 	//TODO : Complete GetSightRayHitLocation()
-	//Setup Parmaeters
-	FCollisionQueryParams HitParameters;
-	FHitResult HitResult = {};
-	//Raycast from camera out to range
-	/*GetWorld()->GetFirstPlayerController()->ActorLineTraceSingle(
-		HitResult,
-		GetWorld()->GetFirstPlayerController()->PlayerCameraManager->GetCameraLocation,
-		HitLocation,
-		ECC_Visibility,
-		HitParameters
-	);*/
-	HitLocation = FVector(1.);
+	int32 ViewPortSizeX, ViewPortSizeY;
+	GetViewportSize(ViewPortSizeX, ViewPortSizeY);
+	auto ScreenCrossHair = FVector2D(ViewPortSizeX * CrossHairXLocation, ViewPortSizeY * CrossHairYLocation);
+	FVector LookDirection;
+	if (GetLookDirection(ScreenCrossHair, LookDirection))
+	{
+		//Linetrace along that look to se what we hit up to max range
+		GetLookVectorHitLocation(LookDirection, HitLocation);
+
+	}//Setup Parmaeters
+	
 	return true;
+}
+
+bool ATankPlayerController::GetLookDirection(FVector2D ScreenCrossHair, FVector& LookDirection) const
+{
+	FVector WorldLocation; //Discarded
+	return DeprojectScreenPositionToWorld(
+		ScreenCrossHair.X,
+		ScreenCrossHair.Y,
+		WorldLocation,
+		LookDirection
+	);
+}
+
+bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const
+{
+	FHitResult HitResult;
+	auto StartLocation = PlayerCameraManager->GetCameraLocation();
+	auto EndLocation = StartLocation + (LookDirection * LineTraceRange);
+	//Raycast from camera out to range
+	
+	if (GetWorld()->LineTraceSingleByChannel(
+		HitResult,
+		StartLocation,
+		EndLocation,
+		ECollisionChannel::ECC_Visibility)
+		)
+	{
+		HitLocation = HitResult.Location;
+		return true;
+	}
+	HitLocation = FVector(0);
+	return false; //If Linetrace fails
 }
