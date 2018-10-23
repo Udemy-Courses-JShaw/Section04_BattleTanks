@@ -19,7 +19,7 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 private:
 
 	virtual void BeginPlay() override;
-	virtual void Tick(float) override;
+	virtual void Tick(float DeltaSeconds) override;
 
 	ATank* GetControlledPlayerTank() const;
 
