@@ -7,7 +7,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "Public/Tank.h"
-#include "TankAIController.generated.h"
+#include "TankAIController.generated.h" //MUST be last !!
 
 /**
  * 
@@ -22,7 +22,7 @@ private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 
-	ATank* GetControlledAITank() const;
+	ATank* GetControlledTank() const;
 
 	ATank* GetPlayerTank() const;
 		

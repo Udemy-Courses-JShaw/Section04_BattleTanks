@@ -1,9 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Public/TankAIController.h"
+#include "../Public/TankAIController.h"
 #include "AIController.h"
 #include "GameFramework/Actor.h"
-#include "../Public/TankAIController.h"
 
 
 void ATankAIController::BeginPlay()
@@ -22,22 +21,22 @@ void ATankAIController::BeginPlay()
 
 }
 
-//Called Every frame
 void ATankAIController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
 	if (GetPlayerTank())
 	{
-		//TODO Move towards Player
+		// TODO Move towards player
 
-		//Start aim at player
-		GetControlledAITank()->AimtAt(GetPlayerTank()->GetActorLocation());
+		//Aim Towards Player
+		GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
+
 		//Fire when ready
 	}
 }
 
-ATank * ATankAIController::GetControlledAITank() const
+ATank * ATankAIController::GetControlledTank() const
 {
 	return Cast<ATank>(GetPawn());
 }

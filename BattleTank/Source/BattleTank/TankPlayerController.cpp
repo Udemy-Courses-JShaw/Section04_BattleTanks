@@ -12,7 +12,7 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto ControlledTank = GetControlledPlayerTank();
+	auto ControlledTank = GetControlledTank();
 	if (!ControlledTank)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("PlayerController is not Possessing Tank!!"))
@@ -29,19 +29,20 @@ void ATankPlayerController::Tick(float DeltaTime)
 	AimAtCrosshair();
 }
 
-ATank* ATankPlayerController::GetControlledPlayerTank() const
+ATank* ATankPlayerController::GetControlledTank() const
 {
 	return Cast<ATank>(GetPawn());
 }
 
 void ATankPlayerController::AimAtCrosshair()
 {
-	if (!GetControlledPlayerTank()){ return; }
+	if (!GetControlledTank()){ return; }
 	
 	FVector HitLocation; //OUT parameter
 	if (GetSightRayHitLocation(HitLocation))
 	{
-		GetControlledPlayerTank()->AimtAt(HitLocation);
+		GetControlledTank()->AimAt(HitLocation);
+		//TODO tell controlled tank to aim at this point
 	}
 	//TODO: Complete AimAtCrosshair
 }
@@ -59,7 +60,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 		//Linetrace along that look to se what we hit up to max range
 		GetLookVectorHitLocation(LookDirection, HitLocation);
 
-	}//Setup Parmaeters
+	}
 	
 	return true;
 }
