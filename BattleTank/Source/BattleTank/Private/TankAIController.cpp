@@ -3,6 +3,7 @@
 #include "../Public/TankAIController.h"
 #include "AIController.h"
 #include "GameFramework/Actor.h"
+#include "Engine/World.h"
 
 
 void ATankAIController::BeginPlay()
@@ -30,6 +31,7 @@ void ATankAIController::Tick(float DeltaSeconds)
 		// TODO Move towards player
 
 		//Aim Towards Player
+		
 		GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
 
 		//Fire when ready
