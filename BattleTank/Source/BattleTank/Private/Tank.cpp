@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Tank.h"
+#include "Public/TankAIController.h"
+#include "Public/TankAimingComponent.h"
 
 void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
@@ -23,13 +25,6 @@ void ATank::BeginPlay()
 {
 	Super::BeginPlay();
 	
-}
-
-// Called every frame
-void ATank::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input

@@ -5,8 +5,10 @@
 #include "BattleTank.h"
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-#include "Public/Tank.h"
 #include "TankPlayerController.generated.h" //MUST always be last!!
+
+//Forward Declarations
+class ATank;
 
 /**
  * 
