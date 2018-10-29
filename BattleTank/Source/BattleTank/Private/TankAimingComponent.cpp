@@ -22,9 +22,14 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 	Barrel = BarrelToSet;
 }
 
+void UTankAimingComponent::SetTurretReference(UTankTurret * TurretToSet)
+{
+	Turret = TurretToSet;
+}
+
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	if (!Barrel) 
+	if (!Barrel || !Turret) 
 	{ 
 		UE_LOG(LogTemp, Error, TEXT("No Barrel!!"))
 		return; 
@@ -33,7 +38,6 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 
 	//Calculate the OutLaunchVelocity
-
 	bool bHasAimSolution = UGameplayStatics::SuggestProjectileVelocity(
 			this,
 			OutLaunchVelocity,
@@ -50,7 +54,12 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
 	}
-	//Do nothing if false
+	else
+	{
+		//return to 0 elevation if false
+		FVector Idle = { 0.f, 0.f, 0.f };
+		MoveBarrelTowards(Idle);
+	}
 
 }
 
@@ -61,6 +70,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
 
-	Barrel->Elevate(5);
+	Barrel->Elevate(DeltaRotator.Pitch);
+	UE_LOG(LogTemp, Warning, TEXT("BarrelRotator: %f, AimAsRotator: %f, DeltaRotator: %f"), BarrelRotator.Pitch, AimAsRotator.Pitch, DeltaRotator.Pitch)
 }
 

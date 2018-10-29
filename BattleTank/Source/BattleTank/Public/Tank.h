@@ -9,6 +9,7 @@
 //Forward Decalrations
 class ATank;
 class UTankBarrel;
+class UTankTurret;
 class UTankAimingComponent;
 
 UCLASS()
@@ -22,8 +23,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetTurretReference(UTankTurret* TurretToSet);
+
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
+	UTankTurret* TankBarrelComponent = nullptr;
 
 private:	
 	// Sets default values for this pawn's properties
@@ -36,6 +41,6 @@ private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 167000.f; //TODO verify launchspeed for a tank shell: 1670 M/s
+	float LaunchSpeed = 167000.f; //launchspeed for a tank shell: 1670 M/s
 	
 };
