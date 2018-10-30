@@ -3,6 +3,7 @@
 #include "Tank.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SceneComponent.h"
+#include "Engine/World.h"
 #include "Public/TankBarrel.h"
 #include "Public/TankTurret.h"
 #include "Public/TankAIController.h"
@@ -56,4 +57,10 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ATank::AimAt(FVector HitLocation)
 {
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
+}
+
+void ATank::Fire()
+{
+	float Time = GetWorld()->DeltaTimeSeconds;
+	UE_LOG(LogTemp, Warning, TEXT("Time: %f  ->FIRE!!!!"), Time)
 }

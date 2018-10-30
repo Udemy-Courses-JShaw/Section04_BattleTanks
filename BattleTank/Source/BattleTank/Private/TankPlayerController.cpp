@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "TankPlayerController.h"
+#include "Public/TankPlayerController.h"
 #include "Public/Tank.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Engine/Engine.h"
@@ -46,6 +46,15 @@ void ATankPlayerController::AimAtCrosshair()
 		//TODO tell controlled tank to aim at this point
 	}
 	//TODO: Complete AimAtCrosshair
+}
+
+void ATankPlayerController::SetupPlayerInputComponent(UInputComponent * InputComponent)
+{
+	/*InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
+	if (InputComponent)
+	{
+		InputComponent->BindAction("Fire", IE_Pressed, this, &ATank::Fire);
+	}*/
 }
 
 // Get World location of linetrace through crosshair, true if hits landscape
