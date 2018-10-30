@@ -29,17 +29,6 @@ ATank::ATank()
 
 	//nullPtr Protection not needed at contruction
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
-	
-	// Attach The barrel to circumvent the v4.20 error - Barrel Mesh dissapears after complation
-	//TankBarrelComponent->CreateDefaultSubobject<UTankBarrel>(FName("BarrelMesh"));
-	/*
-	USceneComponent Parent = ;
-	USceneComponent Socket = ->GetSocketLocation(FName("Barrel"));
-	BarrelMesh->CreateDefaultSubobject<UTankBarrel>(FName("BarrelMesh"));
-	BarrelMesh->SetupAttachment(Parent, Socket);
-	///tank_fbx_Barrel
-	BarrelMesh = ;
-	*/
 }
 
 // Called when the game starts or when spawned
@@ -63,18 +52,16 @@ void ATank::AimAt(FVector HitLocation)
 
 void ATank::Fire()
 {
-	float Time = GetWorld()->DeltaTimeSeconds;
-	UE_LOG(LogTemp, Warning, TEXT("Time: %f  ->FIRE!!!!"), Time)
+	bool IsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
+	if (Barrel || IsReloaded)
+	{
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
+			ProjectileBluePrint,
+			Barrel->GetSocketLocation(FName("Projectile")),
+			Barrel->GetSocketRotation(FName("Projectile"))
+			);
 
-	if (!Barrel) { return; }
-
-	//Spawn Projectileat socket location
-	//FActorSpawnParameters SpawnInfo;
-	GetWorld()->SpawnActor<AProjectile>(
-		ProjectileBluePrint, 
-		Barrel->GetSocketLocation(FName("Projectile")), 
-		Barrel->GetSocketRotation(FName("Projectile")), 
-		//SpawnInfo
-		);
-
+		Projectile->LaunchProjectile(LaunchSpeed);
+		LastFireTime = FPlatformTime::Seconds();
+	}
 }
