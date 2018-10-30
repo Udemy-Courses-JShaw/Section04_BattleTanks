@@ -1,9 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Tank.h"
+#include "Public/Tank.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SceneComponent.h"
 #include "Engine/World.h"
+#include "Public/Projectile.h"
 #include "Public/TankBarrel.h"
 #include "Public/TankTurret.h"
 #include "Public/TankAIController.h"
@@ -12,6 +13,7 @@
 void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
+	Barrel = BarrelToSet;
 }
 
 void ATank::SetTurretReference(UTankTurret * TurretToSet)
@@ -63,4 +65,16 @@ void ATank::Fire()
 {
 	float Time = GetWorld()->DeltaTimeSeconds;
 	UE_LOG(LogTemp, Warning, TEXT("Time: %f  ->FIRE!!!!"), Time)
+
+	if (!Barrel) { return; }
+
+	//Spawn Projectileat socket location
+	//FActorSpawnParameters SpawnInfo;
+	GetWorld()->SpawnActor<AProjectile>(
+		ProjectileBluePrint, 
+		Barrel->GetSocketLocation(FName("Projectile")), 
+		Barrel->GetSocketRotation(FName("Projectile")), 
+		//SpawnInfo
+		);
+
 }

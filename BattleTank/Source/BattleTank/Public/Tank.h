@@ -8,9 +8,11 @@
 
 //Forward Decalrations
 class ATank;
+class AProjectile;
 class UTankBarrel;
 class UTankTurret;
 class UTankAimingComponent;
+
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -41,11 +43,15 @@ private:
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 167000.f; //launchspeed for a tank shell: 1670 M/s
 
+	UPROPERTY(EditAnywhere, Category = Setup)
+	TSubclassOf<AProjectile> ProjectileBluePrint;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	
+	//Local Barrel reference for Spawning projectile
+	UTankBarrel* Barrel = nullptr;
 };
