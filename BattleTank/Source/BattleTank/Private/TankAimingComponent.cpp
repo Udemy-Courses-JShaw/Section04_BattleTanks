@@ -4,7 +4,8 @@
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "TankBarrel.h"
+#include "Public/TankBarrel.h"
+#include "Public/TankTurret.h"
 
 
 // Sets default values for this component's properties
@@ -29,10 +30,15 @@ void UTankAimingComponent::SetTurretReference(UTankTurret * TurretToSet)
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	if (!Barrel || !Turret) 
+	if (!Barrel) 
 	{ 
 		UE_LOG(LogTemp, Error, TEXT("No Barrel!!"))
 		return; 
+	}
+	else if (!Turret)
+	{
+		UE_LOG(LogTemp, Error, TEXT("No Turret!!"))
+		return;
 	};
 	FVector OutLaunchVelocity; //OUT Parameter
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -66,11 +72,11 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	// find diff between curent barrel rotation and AinDirection
-	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
-	auto AimAsRotator = AimDirection.Rotation();
-	auto DeltaRotator = AimAsRotator - BarrelRotator;
+	auto BarrelElevation = Barrel->GetForwardVector().Rotation();
+	auto AimAsRotation = AimDirection.Rotation();
+	auto DeltaAim = AimAsRotation - BarrelElevation;
 
-	Barrel->Elevate(DeltaRotator.Pitch);
-	UE_LOG(LogTemp, Warning, TEXT("BarrelRotator: %f, AimAsRotator: %f, DeltaRotator: %f"), BarrelRotator.Pitch, AimAsRotator.Pitch, DeltaRotator.Pitch)
+	Barrel->Elevate(DeltaAim.Pitch);
+	Turret->Rotate(DeltaAim.Yaw);	
 }
 

@@ -28,7 +28,7 @@ public:
 
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
-	UTankTurret* TankBarrelComponent = nullptr;
+	UTankTurret* TankTurretComponent = nullptr;
 
 private:	
 	// Sets default values for this pawn's properties

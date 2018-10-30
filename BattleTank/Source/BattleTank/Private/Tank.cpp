@@ -1,9 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Tank.h"
-#include "TankBarrel.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SceneComponent.h"
+#include "Public/TankBarrel.h"
+#include "Public/TankTurret.h"
 #include "Public/TankAIController.h"
 #include "Public/TankAimingComponent.h"
 
@@ -14,7 +15,7 @@ void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
 
 void ATank::SetTurretReference(UTankTurret * TurretToSet)
 {
-	// hrm... might not need this
+	TankAimingComponent->SetTurretReference(TurretToSet);
 }
 
 // Sets default values
@@ -25,7 +26,17 @@ ATank::ATank()
 
 	//nullPtr Protection not needed at contruction
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+	
+	// Attach The barrel to circumvent the v4.20 error - Barrel Mesh dissapears after complation
 	//TankBarrelComponent->CreateDefaultSubobject<UTankBarrel>(FName("BarrelMesh"));
+	/*
+	USceneComponent Parent = ;
+	USceneComponent Socket = ->GetSocketLocation(FName("Barrel"));
+	BarrelMesh->CreateDefaultSubobject<UTankBarrel>(FName("BarrelMesh"));
+	BarrelMesh->SetupAttachment(Parent, Socket);
+	///tank_fbx_Barrel
+	BarrelMesh = ;
+	*/
 }
 
 // Called when the game starts or when spawned

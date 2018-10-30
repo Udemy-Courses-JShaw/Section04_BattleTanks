@@ -13,19 +13,14 @@ class BATTLETANK_API UTankTurret : public UStaticMeshComponent
 {
 	GENERATED_BODY()
 
-public:	
-	// Sets default values for this component's properties
-	UTankTurret();
-
-	void Rotate(float RelativeRotaitonIn);
-
 protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
+
+public:	
+	void Rotate(float RelativeRotaitonIn);
 
 private:
 	UPROPERTY(EditAnywhere, Category = Setup)
-	float MaxDegreesPerSecond = 20.f;
+	float MaxDegreesPerSecond = 5.f;
 		
 	
 };
