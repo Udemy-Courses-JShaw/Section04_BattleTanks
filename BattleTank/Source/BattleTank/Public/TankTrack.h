@@ -6,15 +6,18 @@
 #include "Components/StaticMeshComponent.h"
 #include "TankTrack.generated.h"
 
+class UTanktrack;
+
 /**
  * 
  */
-UCLASS()
+UCLASS( meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankTrack : public UStaticMeshComponent
 {
 	GENERATED_BODY()
 	
-	
+public:
+
 	
 	
 };
