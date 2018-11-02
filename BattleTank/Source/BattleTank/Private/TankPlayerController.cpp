@@ -18,6 +18,10 @@ void ATankPlayerController::BeginPlay()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("PlayerController is not Possessing Tank!!"))
 	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("PlayerController Possessing %s !!"), *(ControlledTank->GetName()))
+	}
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
@@ -39,8 +43,18 @@ void ATankPlayerController::AimAtCrosshair()
 	if (GetSightRayHitLocation(HitLocation))
 	{
 		GetControlledTank()->AimAt(HitLocation);
+		//TODO tell controlled tank to aim at this point
 	}
 	//TODO: Complete AimAtCrosshair
+}
+
+void ATankPlayerController::SetupPlayerInputComponent(UInputComponent * InputComponent)
+{
+	/*InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
+	if (InputComponent)
+	{
+		InputComponent->BindAction("Fire", IE_Pressed, this, &ATank::Fire);
+	}*/
 }
 
 // Get World location of linetrace through crosshair, true if hits landscape
@@ -53,7 +67,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 	FVector LookDirection;
 	if (GetLookDirection(ScreenCrossHair, LookDirection))
 	{
-		//Linetrace along that look to see what we hit up to max range
+		//Linetrace along that look to se what we hit up to max range
 		GetLookVectorHitLocation(LookDirection, HitLocation);
 		return true;
 	}
@@ -88,9 +102,6 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 		HitLocation = HitResult.Location;
 		return true;
 	}
-	else
-	{
-		HitLocation = FVector(0);
-		return false; //If Linetrace fails
-	}
+	HitLocation = FVector(0);
+	return false; //If Linetrace fails
 }

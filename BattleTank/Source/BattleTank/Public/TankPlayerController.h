@@ -28,6 +28,8 @@ private:
 	//Starts moving the tank barrel and turret towards the crosshair made in the UI 
 	void AimAtCrosshair();
 
+	void SetupPlayerInputComponent(UInputComponent* InputComponent);
+
 	// Returns out parameter, true if Hit landscape
 	bool GetSightRayHitLocation(FVector& HitLocation) const;
 

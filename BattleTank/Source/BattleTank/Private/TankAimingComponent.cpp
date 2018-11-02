@@ -66,6 +66,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		FVector Idle = { 0.f, 0.f, 0.f };
 		MoveBarrelTowards(Idle);
 	}
+
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)

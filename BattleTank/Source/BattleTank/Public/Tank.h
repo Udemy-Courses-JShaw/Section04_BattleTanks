@@ -10,7 +10,6 @@
 class ATank;
 class AProjectile;
 class UTankBarrel;
-class UTankTrack;
 class UTankTurret;
 class UTankAimingComponent;
 
@@ -36,7 +35,6 @@ public:
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
 	UTankTurret* TankTurretComponent = nullptr;
-	UTankTrack* TankTrackComponent = nullptr;
 
 private:	
 	// Sets default values for this pawn's properties
@@ -44,9 +42,6 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 167000.f; //launchspeed for a tank shell: 1670 M/s
-
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
-	float ReloadTimeInSeconds = 5;
 
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBluePrint;
@@ -59,6 +54,7 @@ private:
 
 	//Local Barrel reference for Spawning projectile
 	UTankBarrel* Barrel = nullptr;
-	
+
+	float ReloadTimeInSeconds = 5;
 	double LastFireTime = 0;
 };
