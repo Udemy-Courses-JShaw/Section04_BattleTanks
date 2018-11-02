@@ -7,7 +7,10 @@
 #include "TankTurret.generated.h"
 
 class UTankTurret;
-
+/*
+* Turret is used for rotation of hte barrel for aiming without facing the entire tank.
+* Tank body and turret are able to move independantly.
+*/
 UCLASS( meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankTurret : public UStaticMeshComponent
 {
@@ -19,7 +22,7 @@ public:
 	void Rotate(float RelativeRotaitonIn);
 
 private:
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	float MaxDegreesPerSecond = 5.f;
 		
 	

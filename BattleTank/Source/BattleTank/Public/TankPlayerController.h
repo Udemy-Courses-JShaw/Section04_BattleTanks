@@ -28,21 +28,19 @@ private:
 	//Starts moving the tank barrel and turret towards the crosshair made in the UI 
 	void AimAtCrosshair();
 
-	void SetupPlayerInputComponent(UInputComponent* InputComponent);
-
 	// Returns out parameter, true if Hit landscape
 	bool GetSightRayHitLocation(FVector& HitLocation) const;
 
 	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
 	bool GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrossHairXLocation = 0.5f;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrossHairYLocation = 0.33333f;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 1000000.0f;  //10K range
 	
 };

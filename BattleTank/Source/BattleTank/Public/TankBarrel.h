@@ -15,7 +15,7 @@ class BATTLETANK_API UTankBarrel : public UStaticMeshComponent
 	
 protected:
 	//Attaching the barrel to circumvent Unreal v4.20 bug (barrel keeps dissapearing on compile)
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
+	//UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Mesh")
 	UTankBarrel* BarrelMesh = nullptr;
 
 public:
@@ -23,12 +23,12 @@ public:
 	void Elevate(float RelativeSpeedIn);
 	
 private:
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	float MaxDegreesPerSecond = 5.f; 
 
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	float MaxElevationDegrees = 45.f;
 	
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	float MinElevationDegrees = 0.f; 
 };
