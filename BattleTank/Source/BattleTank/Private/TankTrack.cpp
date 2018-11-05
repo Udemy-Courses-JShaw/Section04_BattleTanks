@@ -2,7 +2,14 @@
 
 #include "TankTrack.h"
 
-void SetThrottle(float Throttle)
+void UTankTrack::SetThrottle(float Throttle)
 {
-	UE_LOG(LogTemp, Warning, TEXT("My Throttle is: %s"), Throttle)
+	auto Name = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s Throttle is: %s"), *Name, Throttle)
+
+	//TODO Clamp the Throttle Values
+	auto ForceApplied = GetForwardVector() * Throttle * TrackMaxDriveForce;
+	auto ForceLocation = GetComponentLocation();
+	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
+	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
 }
