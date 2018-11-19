@@ -21,7 +21,14 @@ void ATankAIController::Tick(float DeltaSeconds)
 	auto ConrolledTank = Cast<ATank>(GetPawn());
 	auto PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
-	ConrolledTank->AimAt(PlayerTank->GetActorLocation());
-	ConrolledTank->Fire(); //TODO do not fire every frame!
+	if (PlayerTank)
+	{
+		//TODO Move towards Player
+
+		//Aim at Player
+		ConrolledTank->AimAt(PlayerTank->GetActorLocation());
+
+		ConrolledTank->Fire();
+	}
 
 }

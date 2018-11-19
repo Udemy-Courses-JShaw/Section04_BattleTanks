@@ -67,22 +67,11 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 	FVector LookDirection;
 	if (GetLookDirection(ScreenCrossHair, LookDirection))
 	{
-		//Linetrace along that look to se what we hit up to max range
+		//Linetrace along and look to see what we hit up to max range
 		GetLookVectorHitLocation(LookDirection, HitLocation);
 		return true;
 	}
 	return false;
-}
-
-bool ATankPlayerController::GetLookDirection(FVector2D ScreenCrossHair, FVector& LookDirection) const
-{
-	FVector WorldLocation; //Discarded
-	return DeprojectScreenPositionToWorld(
-		ScreenCrossHair.X,
-		ScreenCrossHair.Y,
-		WorldLocation,
-		LookDirection
-	);
 }
 
 bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const
@@ -90,7 +79,6 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 	FHitResult HitResult;
 	auto StartLocation = PlayerCameraManager->GetCameraLocation();
 	auto EndLocation = StartLocation + (LookDirection * LineTraceRange);
-	//Raycast from camera out to range
 	
 	if (GetWorld()->LineTraceSingleByChannel(
 		HitResult,
@@ -102,6 +90,17 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 		HitLocation = HitResult.Location;
 		return true;
 	}
-	HitLocation = FVector(0);
+	//HitLocation = FVector(0);
 	return false; //If Linetrace fails
+}
+
+bool ATankPlayerController::GetLookDirection(FVector2D ScreenCrossHair, FVector& LookDirection) const
+{
+	FVector WorldLocation; //Discarded
+	return DeprojectScreenPositionToWorld(
+		ScreenCrossHair.X,
+		ScreenCrossHair.Y,
+		WorldLocation,
+		LookDirection
+	);
 }

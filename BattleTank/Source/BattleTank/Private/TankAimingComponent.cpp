@@ -28,7 +28,7 @@ void UTankAimingComponent::SetTurretReference(UTankTurret * TurretToSet)
 	Turret = TurretToSet;
 }
 
-void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
+void UTankAimingComponent::AimAt(FVector HitLocation, double LaunchSpeed)
 {
 	if (!Barrel) 
 	{ 
@@ -60,12 +60,12 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
 	}
-	else
-	{
-		//return to 0 elevation if false
-		FVector Idle = { 0.f, 0.f, 0.f };
-		MoveBarrelTowards(Idle);
-	}
+	//else
+	//{
+	//	//return to 0 elevation if false
+	//	FVector Idle = { 0.f, 0.f, 0.f };
+	//	MoveBarrelTowards(Idle);
+	//}
 
 }
 
