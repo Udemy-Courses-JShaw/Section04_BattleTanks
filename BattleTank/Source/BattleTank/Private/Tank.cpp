@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright MetalMuffing Entertainment 2018
 
 #include "Public/Tank.h"
 #include "Components/StaticMeshComponent.h"
@@ -6,9 +6,8 @@
 #include "Engine/World.h"
 #include "Public/Projectile.h"
 #include "Public/TankBarrel.h"
-#include "Public/TankTurret.h"
-#include "Public/TankAIController.h"
 #include "Public/TankAimingComponent.h"
+#include "Public/TankMovementComponent.h"
 
 void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
@@ -29,6 +28,7 @@ ATank::ATank()
 
 	//nullPtr Protection not needed at contruction
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+	TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 }
 
 // Called when the game starts or when spawned

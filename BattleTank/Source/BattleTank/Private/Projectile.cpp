@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright MetalMuffing Entertainment 2018
 
 #include "Projectile.h"
 #include "Engine/World.h"
@@ -17,8 +17,6 @@ AProjectile::AProjectile()
 
 void AProjectile::LaunchProjectile(float LaunchSpeed)
 {
-	float Time = GetWorld()->DeltaTimeSeconds;
-	UE_LOG(LogTemp, Warning, TEXT("Time: %f  ->FIRE!!!!"), Time)
 	ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * LaunchSpeed);
 	ProjectileMovement->Activate();
 }

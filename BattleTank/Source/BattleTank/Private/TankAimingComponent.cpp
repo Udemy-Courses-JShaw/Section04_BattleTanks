@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright MetalMuffing Entertainment 2018
 
 #include "TankAimingComponent.h"
 #include "GameFramework/Actor.h"
@@ -60,12 +60,6 @@ void UTankAimingComponent::AimAt(FVector HitLocation, double LaunchSpeed)
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
 	}
-	//else
-	//{
-	//	//return to 0 elevation if false
-	//	FVector Idle = { 0.f, 0.f, 0.f };
-	//	MoveBarrelTowards(Idle);
-	//}
 
 }
 

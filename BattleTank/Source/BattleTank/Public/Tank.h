@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright MetalMuffing Entertainment 2018
 
 #pragma once
 
@@ -7,11 +7,10 @@
 #include "Tank.generated.h" //MUST always be last
 
 //Forward Decalrations
-class ATank;
 class AProjectile;
 class UTankBarrel;
-class UTankTurret;
 class UTankAimingComponent;
+class UTankMovementComponent;
 
 
 UCLASS()
@@ -34,7 +33,9 @@ public:
 
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
-	UTankTurret* TankTurretComponent = nullptr;
+	
+	UPROPERTY(BlueprintReadOnly)
+	UTankMovementComponent* TankMovementComponent = nullptr;
 
 private:	
 	// Sets default values for this pawn's properties
