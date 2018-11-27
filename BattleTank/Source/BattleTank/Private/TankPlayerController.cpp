@@ -48,15 +48,6 @@ void ATankPlayerController::AimAtCrosshair()
 	//TODO: Complete AimAtCrosshair
 }
 
-void ATankPlayerController::SetupPlayerInputComponent(UInputComponent * InputComponent)
-{
-	/*InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
-	if (InputComponent)
-	{
-		InputComponent->BindAction("Fire", IE_Pressed, this, &ATank::Fire);
-	}*/
-}
-
 // Get World location of linetrace through crosshair, true if hits landscape
 bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 {
