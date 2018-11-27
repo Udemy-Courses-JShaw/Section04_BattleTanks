@@ -17,6 +17,12 @@ void UTankMovementComponent::IntendMoveForward(float Throw)
 	//TODO Prevent 2x throttle
 }
 
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
+{
+	auto TankName = GetOwner()->GetName();
+	UE_LOG(LogTemp, Warning, TEXT("MoveVelocity is %s, vectoring to: %s"), *MoveVelocity.ToString(), *TankName)
+}
+
 void UTankMovementComponent::IntendRotateClockwise(float Throw)
 {
 	if (!LeftTrack || !RightTrack) { return; }
