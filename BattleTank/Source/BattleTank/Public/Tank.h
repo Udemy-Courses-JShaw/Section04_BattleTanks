@@ -19,6 +19,7 @@ class BATTLETANK_API ATank : public APawn
 	GENERATED_BODY()
 
 public:
+
 	UFUNCTION(BlueprintCallable, Category = Input)
 	void Fire();
 	
@@ -34,6 +35,8 @@ protected:
 private:	
 	// Sets default values for this pawn's properties
 	ATank();
+
+	virtual void BeginPlay() override;
 
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 167000.f; //launchspeed for a tank shell: 1670 M/s
