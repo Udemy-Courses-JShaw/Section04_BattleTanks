@@ -7,8 +7,17 @@
 #include "TankAimingComponent.generated.h"
 
 /**
-* 
+*  Aiming Component the is used by the AI to aim at the player
 */
+
+//Enum for aiming state
+UENUM()
+enum class EFiringStatus : uint8
+{
+	Reloading,
+	Aiming,
+	Locked
+};
 
 //Forward Declaration
 class UTankBarrel;
@@ -24,12 +33,14 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
-
-	//TODO Add set turret reference
-	void SetTurretReference(UTankTurret* TurretToSet);
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
 	void AimAt(FVector HitLocation, double LaunchSpeed);
+
+protected:
+	UPROPERTY(BlueprintReadOnly, Category = "State")
+	EFiringStatus FiringStatus = EFiringStatus::Locked;
 
 private:
 	UTankBarrel* Barrel = nullptr;

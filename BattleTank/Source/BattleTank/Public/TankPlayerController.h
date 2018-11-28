@@ -23,8 +23,6 @@ private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float) override;
 
-	ATank* GetControlledTank() const;
-
 	//Starts moving the tank barrel and turret towards the crosshair made in the UI 
 	void AimAtCrosshair();
 
@@ -42,5 +40,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 1000000.0f;  //10K range
+
+protected:
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	ATank* GetControlledTank() const;
 	
 };
