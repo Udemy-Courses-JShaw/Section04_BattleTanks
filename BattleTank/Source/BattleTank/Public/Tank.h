@@ -10,7 +10,6 @@
 class AProjectile;
 class UTankBarrel;
 class UTankAimingComponent;
-class UTankMovementComponent;
 
 
 UCLASS()
@@ -28,9 +27,6 @@ public:
 protected:
 	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAimingComponent = nullptr;
-	
-	UPROPERTY(BlueprintReadOnly)
-	UTankMovementComponent* TankMovementComponent = nullptr;
 
 private:	
 	// Sets default values for this pawn's properties
@@ -38,6 +34,7 @@ private:
 
 	virtual void BeginPlay() override;
 
+	//remove once fire() is moved to AimComponent
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 167000.f; //launchspeed for a tank shell: 1670 M/s
 

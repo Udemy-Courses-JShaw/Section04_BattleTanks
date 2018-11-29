@@ -47,5 +47,5 @@ protected:
 	ATank* GetControlledTank() const;
 	
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
-	void FoundAimingComponent(UTankAimingComponent* AimCompRef);
+	void FoundAimingComponent(UTankAimingComponent* AimCompRef); //Custom event
 };

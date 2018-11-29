@@ -9,13 +9,6 @@ void UTankMovementComponent::Initialize(UTankTrack* LeftTrackToSet, UTankTrack* 
 	RightTrack = RightTrackToSet;
 }
 
-void UTankMovementComponent::IntendMoveForward(float Throw)
-{
-	if (!LeftTrack || !RightTrack) { return; }
-	LeftTrack->SetThrottle(Throw);
-	RightTrack->SetThrottle(Throw);
-	//TODO Prevent 2x throttle
-}
 
 void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
 {
@@ -30,9 +23,17 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 	IntendRotateClockwise(TurnThrow);
 }
 
+void UTankMovementComponent::IntendMoveForward(float Throw)
+{
+	if (!ensure(LeftTrack && RightTrack)) { return; }
+	LeftTrack->SetThrottle(Throw);
+	RightTrack->SetThrottle(Throw);
+	//TODO Prevent 2x throttle
+}
+
 void UTankMovementComponent::IntendRotateClockwise(float Throw)
 {
-	if (!LeftTrack || !RightTrack) { return; }
+	if (!ensure(LeftTrack && RightTrack)) { return; }
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(-Throw);
 }

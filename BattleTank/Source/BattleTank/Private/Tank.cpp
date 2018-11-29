@@ -1,13 +1,9 @@
 // Copyright MetalMuffing Entertainment 2018
 
 #include "Public/Tank.h"
-#include "Components/StaticMeshComponent.h"
-#include "Components/SceneComponent.h"
-#include "Engine/World.h"
 #include "Public/Projectile.h"
 #include "Public/TankBarrel.h"
 #include "Public/TankAimingComponent.h"
-#include "Public/TankMovementComponent.h"
 
 // Sets default values
 ATank::ATank()
@@ -21,18 +17,21 @@ void ATank::BeginPlay()
 {
 	Super::BeginPlay();
 
+	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
 }
 
 void ATank::AimAt(FVector HitLocation)
 {
-	if (!TankAimingComponent) { return; }
+	if (!ensure(TankAimingComponent)) { return; }
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 
 void ATank::Fire()
 {
+	if (!ensure(Barrel)) { return; }
 	bool IsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-	if (Barrel && IsReloaded)
+	
+	if (IsReloaded)
 	{
 		AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBluePrint,
