@@ -2,6 +2,7 @@
 
 #include "Public/TankPlayerController.h"
 #include "Public/Tank.h"
+#include "Public/TankAimingComponent.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Engine/Engine.h"
 #include "Engine/World.h"
@@ -13,14 +14,14 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto ControlledTank = GetControlledTank();
-	if (!ControlledTank)
+	UTankAimingComponent* AimingComponentRef = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	if (!AimingComponentRef)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController is not Possessing Tank!!"))
+		FoundAimingComponent(AimingComponentRef);
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController Possessing %s !!"), *(ControlledTank->GetName()))
+		UE_LOG(LogTemp, Warning, TEXT("PlayerController cannot Find Aiming Component!!"))
 	}
 }
 
@@ -54,7 +55,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 	//TODO : Complete GetSightRayHitLocation()
 	int32 ViewPortSizeX, ViewPortSizeY;
 	GetViewportSize(ViewPortSizeX, ViewPortSizeY);
-	auto ScreenCrossHair = FVector2D(ViewPortSizeX * CrossHairXLocation, ViewPortSizeY * CrossHairYLocation);
+	FVector2D ScreenCrossHair = FVector2D(ViewPortSizeX * CrossHairXLocation, ViewPortSizeY * CrossHairYLocation);
 	FVector LookDirection;
 	if (GetLookDirection(ScreenCrossHair, LookDirection))
 	{
@@ -68,8 +69,8 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const
 {
 	FHitResult HitResult;
-	auto StartLocation = PlayerCameraManager->GetCameraLocation();
-	auto EndLocation = StartLocation + (LookDirection * LineTraceRange);
+	FVector StartLocation = PlayerCameraManager->GetCameraLocation();
+	FVector EndLocation = StartLocation + (LookDirection * LineTraceRange);
 	
 	if (GetWorld()->LineTraceSingleByChannel(
 		HitResult,
