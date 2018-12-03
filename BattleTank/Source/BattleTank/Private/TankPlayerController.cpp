@@ -1,7 +1,6 @@
 // Copyright MetalMuffing Entertainment 2018
 
 #include "Public/TankPlayerController.h"
-#include "Public/Tank.h"
 #include "Public/TankAimingComponent.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Engine/Engine.h"
@@ -14,7 +13,7 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UTankAimingComponent* AimingComponentRef = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	UTankAimingComponent* AimingComponentRef = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponentRef)) { return; }
 	FoundAimingComponent(AimingComponentRef);
 }
@@ -25,19 +24,15 @@ void ATankPlayerController::Tick(float DeltaTime)
 	AimAtCrosshair();
 }
 
-ATank* ATankPlayerController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
 void ATankPlayerController::AimAtCrosshair()
 {
-	if (!ensure(GetControlledTank())) { return; }
-	
+	UTankAimingComponent* AimingComponentRef = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponentRef)) { return; }
+
 	FVector HitLocation; //OUT parameter
 	if (GetSightRayHitLocation(HitLocation))
 	{
-		GetControlledTank()->AimAt(HitLocation);
+		AimingComponentRef->AimAt(HitLocation);
 		//TODO tell controlled tank to aim at this point
 	}
 	//TODO: Complete AimAtCrosshair

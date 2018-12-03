@@ -1,8 +1,9 @@
 // Copyright MetalMuffing Entertainment 2018
 
 #include "Public/TankAIController.h"
-#include "Public/Tank.h"
-#include "TankPlayerController.h"
+#include "Public/TankPlayerController.h"
+#include "Public/TankAimingComponent.h"
+#include "AIController.h"
 #include "GameFramework/Actor.h"
 #include "Engine/World.h"
 
@@ -18,18 +19,19 @@ void ATankAIController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	ATank* ConrolledTank = Cast<ATank>(GetPawn());
-	ATank* PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	APawn* ControlledTank = GetPawn();
+	APawn* PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
+	UTankAimingComponent*  TankAimingComponent = ControlledTank->FindComponentByClass<UTankAimingComponent>();
 
-	if (ensure(PlayerTank))
-	{
-		// Move towards Player
-		MoveToActor(PlayerTank, AcceptanceRadius); //TODO check radius is in CM
+	if (!ensure(PlayerTank) && ControlledTank ) { return; }
+	
+	// Move towards Player
+	MoveToActor(PlayerTank, AcceptanceRadius); //TODO check radius is in CM
 
-		//Aim at Player
-		ConrolledTank->AimAt(PlayerTank->GetActorLocation());
+	//Aim at Player
+	TankAimingComponent->AimAt(PlayerTank->GetActorLocation());
 
-		ConrolledTank->Fire();
-	}
+	// TODO Fix Firing
+	//ConrolledTank->Fire();
 
 }

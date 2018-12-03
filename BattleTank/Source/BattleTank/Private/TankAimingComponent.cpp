@@ -1,11 +1,13 @@
 // Copyright MetalMuffing Entertainment 2018
 
 #include "TankAimingComponent.h"
-#include "GameFramework/Actor.h"
+//#include "GameFramework/Actor.h"
+#include "GameFramework/Controller.h"
 #include "Components/StaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Public/TankBarrel.h"
 #include "Public/TankTurret.h"
+
 
 
 // Sets default values for this component's properties
@@ -25,10 +27,13 @@ void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* Tur
 }
 
 
-void UTankAimingComponent::AimAt(FVector HitLocation, double LaunchSpeed)
+void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	if (!ensure(Barrel)) { 	return; }
 	if (!ensure(Turret)) {	return;	}
+	
+	AimAt(HitLocation);
+
 	FVector OutLaunchVelocity; //OUT Parameter
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 
@@ -63,4 +68,3 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	Barrel->Elevate(DeltaAim.Pitch);
 	Turret->Rotate(DeltaAim.Yaw);	
 }
-

@@ -36,7 +36,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
-	void AimAt(FVector HitLocation, double LaunchSpeed);
+	void AimAt(FVector HitLocation);
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
@@ -48,5 +48,6 @@ private:
 
 	void MoveBarrelTowards(FVector AimDirection);
 		
-	
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float LaunchSpeed = 167000.f; //launchspeed for a tank shell: 1670 M/s
 };

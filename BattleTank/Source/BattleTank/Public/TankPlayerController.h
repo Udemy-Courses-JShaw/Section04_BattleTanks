@@ -5,10 +5,10 @@
 #include "BattleTank.h"
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "TankAimingComponent.h"
 #include "TankPlayerController.generated.h" //MUST always be last!!
 
 //Forward Declarations
-class ATank;
 class UTankAimingComponent;
 
 /**
@@ -42,10 +42,7 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 1000000.0f;  //10K range
 
-protected:
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	ATank* GetControlledTank() const;
-	
+protected:	
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 	void FoundAimingComponent(UTankAimingComponent* AimCompRef); //Custom event
 };
