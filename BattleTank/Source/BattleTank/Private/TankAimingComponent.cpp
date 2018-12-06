@@ -1,12 +1,13 @@
 // Copyright MetalMuffing Entertainment 2018
 
 #include "TankAimingComponent.h"
-//#include "GameFramework/Actor.h"
+#include "GameFramework/Actor.h"
 #include "GameFramework/Controller.h"
 #include "Components/StaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Public/TankBarrel.h"
 #include "Public/TankTurret.h"
+#include "Public/Projectile.h"
 
 
 
@@ -20,6 +21,13 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
+void UTankAimingComponent::BeginPlay() 
+{
+	Super::BeginPlay();
+
+	LastFireTime = FPlatformTime::Seconds();
+}
+
 void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
 {
 	Turret = TurretToSet;
@@ -30,9 +38,6 @@ void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* Tur
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	if (!ensure(Barrel)) { 	return; }
-	if (!ensure(Turret)) {	return;	}
-	
-	AimAt(HitLocation);
 
 	FVector OutLaunchVelocity; //OUT Parameter
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -55,6 +60,34 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 		MoveBarrelTowards(AimDirection);
 	}
 
+}
+
+void UTankAimingComponent::Fire()
+{
+	if (!ensure(Barrel && ProjectileBluePrint)) { return; }
+
+	if (FiringStatus != EFiringStatus::Reloading)
+	{
+		AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(
+			ProjectileBluePrint,
+			Barrel->GetSocketLocation(FName("Projectile")),
+			Barrel->GetSocketRotation(FName("Projectile"))
+			);
+
+		Projectile->LaunchProjectile(LaunchSpeed);
+		LastFireTime = FPlatformTime::Seconds();
+	}
+}
+
+
+
+void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickfunction)
+{
+	if ((FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds)
+	{
+		FiringStatus = EFiringStatus::Reloading;
+	}
+	//TODO Handle Aiming and Locked Satates
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)

@@ -8,8 +8,6 @@
 #include "GameFramework/PlayerController.h"
 #include "TankAIController.generated.h" //MUST be last !!
 
-//Forward declarations
-class ATank;
 
 UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
