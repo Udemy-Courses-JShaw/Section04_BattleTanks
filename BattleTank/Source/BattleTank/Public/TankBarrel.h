@@ -12,11 +12,6 @@ UCLASS( meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankBarrel : public UStaticMeshComponent
 {
 	GENERATED_BODY()
-	
-protected:
-	//Attaching the barrel to circumvent Unreal v4.20 bug (barrel keeps dissapearing on compile)
-	//UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Mesh")
-	UTankBarrel* BarrelMesh = nullptr;
 
 public:
 	//-1 is max downward movement speed, +1 is max upward speed of barrel
