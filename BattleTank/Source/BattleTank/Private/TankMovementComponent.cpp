@@ -1,4 +1,4 @@
-// Copyright MetalMuffing Entertainment 2018
+// Copyright MetalMuffin Entertainment 2018
 
 #include "TankMovementComponent.h"
 #include "Public/TankTrack.h"

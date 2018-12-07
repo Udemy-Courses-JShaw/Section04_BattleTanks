@@ -1,4 +1,4 @@
-// Copyright MetalMuffing Entertainment 2018
+// Copyright MetalMuffin Entertainment 2018
 
 #include "Public/TankPlayerController.h"
 #include "Public/TankAimingComponent.h"
@@ -26,6 +26,7 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 void ATankPlayerController::AimAtCrosshair()
 {
+	if (!GetPawn()) { return; } //e.g. if not possessing
 	UTankAimingComponent* AimingComponentRef = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponentRef)) { return; }
 

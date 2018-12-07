@@ -1,4 +1,4 @@
-// Copyright MetalMuffing Entertainment 2018
+// Copyright MetalMuffin Entertainment 2018
 
 #include "Public/Tank.h"
 

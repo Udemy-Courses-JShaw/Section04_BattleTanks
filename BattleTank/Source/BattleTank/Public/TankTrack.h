@@ -1,4 +1,4 @@
-// Copyright MetalMuffing Entertainment 2018
+// Copyright MetalMuffin Entertainment 2018
 
 #pragma once
 
@@ -16,6 +16,11 @@ class BATTLETANK_API UTankTrack : public UStaticMeshComponent
 {
 	GENERATED_BODY()
 	
+private:
+	UTankTrack();
+
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickfunction);
+
 public:
 	//Sets a throttle between -1 and +1
 	UFUNCTION(BlueprintCallable, Category = Input) 
