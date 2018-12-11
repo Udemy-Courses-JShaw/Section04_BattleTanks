@@ -50,8 +50,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 	if (GetLookDirection(ScreenCrossHair, LookDirection))
 	{
 		//Linetrace along and look to see what we hit up to max range
-		GetLookVectorHitLocation(LookDirection, HitLocation);
-		return true;
+		return GetLookVectorHitLocation(LookDirection, HitLocation);
 	}
 	return false;
 }

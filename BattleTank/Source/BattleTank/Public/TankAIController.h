@@ -15,11 +15,12 @@ class BATTLETANK_API ATankAIController : public AAIController
 	GENERATED_BODY()
 	
 private:
-
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 
-	float AcceptanceRadius = 3000.f; //Used for Nav Calculations: How close to the player can the AI get
+protected:
+	UPROPERTY(EditDefaultsOnly, Category = "Settings") 
+	float AcceptanceRadius = 8000.f; //Used for Nav Calculations: How close to the player can the AI get
 		
 	
 };

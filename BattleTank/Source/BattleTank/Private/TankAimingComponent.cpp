@@ -31,19 +31,33 @@ void UTankAimingComponent::BeginPlay()
 
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickfunction)
 {
-	if ((GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds)
+	if (GetRoundsLeft() <= 0)
 	{
-		FiringStatus = EFiringStatus::Reloading;
+		FiringStatus = EFiringStatus::OutOfAmmo;
 	}
 	else if (IsBarrelMoving())
 	{
 		FiringStatus = EFiringStatus::Aiming;
+	}
+	else if ((GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds)
+	{
+		FiringStatus = EFiringStatus::Reloading; 
 	}
 	else
 	{
 		FiringStatus = EFiringStatus::Locked;
 	}
 	
+}
+
+EFiringStatus UTankAimingComponent::GetFiringState() const
+{
+	return FiringStatus;
+}
+
+int32 UTankAimingComponent::GetRoundsLeft() const
+{
+	return AmmoCount;
 }
 
 void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
@@ -85,7 +99,12 @@ void UTankAimingComponent::Fire()
 	if (!ensure(Barrel)) { return; }
 	if (!ensure(ProjectileBluePrint)) { return; }
 
-	if (FiringStatus != EFiringStatus::Reloading)
+	
+	if (AmmoCount <= 0)
+	{
+		FiringStatus = EFiringStatus::OutOfAmmo;
+	}
+	else if (FiringStatus != EFiringStatus::Reloading && GetRoundsLeft() > 0)
 	{
 		AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBluePrint,
@@ -95,6 +114,7 @@ void UTankAimingComponent::Fire()
 
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = GetWorld()->GetTimeSeconds();
+		AmmoCount--;
 	}
 }
 
@@ -107,13 +127,13 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	FRotator DeltaAim = AimAsRotation - BarrelElevation;
 
 	Barrel->Elevate(DeltaAim.Pitch);
-	Turret->Rotate(DeltaAim.Yaw);	
+	Turret->Rotate(DeltaAim.Yaw); //TODO Fix with FMath::Abs
 }
 
 bool UTankAimingComponent::IsBarrelMoving()
 {
 	if (!ensure(Barrel)) { return false; }
 	FVector BarrelForward = Barrel->GetForwardVector();
-	return !BarrelForward.Equals(AimDirection, 0.01);
+	return !BarrelForward.Equals(AimDirection, 0.1);
 	
 }
