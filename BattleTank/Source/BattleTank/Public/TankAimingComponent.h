@@ -59,19 +59,25 @@ private:
 	void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickfunction);
 
 	void MoveBarrelTowards(FVector AimDirection);
+
 	bool IsBarrelMoving();
 
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	int32 AmmoCount = 2;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadTimeInSeconds = 3;
-	double LastFireTime = 0;
-	FVector AimDirection = {};
 			
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 16700.f; 
 
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	double LastFireTime = 0;
+
+	FVector AimDirection = {};
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBluePrint;
 };
