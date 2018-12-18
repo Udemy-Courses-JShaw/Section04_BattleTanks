@@ -2,7 +2,9 @@
 
 #include "Projectile.h"
 #include "Components/StaticMeshComponent.h"
+#include "Classes/GameFramework/Actor.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "TimerManager.h"
 #include "Engine/World.h"
 
 
@@ -26,6 +28,9 @@ AProjectile::AProjectile()
 
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectile Movement") );
 	ProjectileMovement->bAutoActivate = false;
+
+	ExplosionForce = CreateDefaultSubobject<URadialForceComponent>(FName("Explosion Force"));
+	ExplosionForce->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 void AProjectile::BeginPlay()
@@ -42,8 +47,28 @@ void AProjectile::LaunchProjectile(float LaunchSpeed)
 	ProjectileMovement->Activate();
 }
 
+void AProjectile::OnTimerExpire()
+{
+	Destroy();
+}
+
 void AProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent, FVector NormalImpulse, const FHitResult & Hit)
 {
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
+	ExplosionForce->FireImpulse();
+
+	SetRootComponent(ImpactBlast);
+	CollisionMesh->DestroyComponent();
+
+	FTimerHandle TimerHandle;
+	GetWorld()->GetTimerManager().SetTimer(
+		TimerHandle,
+		this,
+		&AProjectile::OnTimerExpire,
+		1,
+		false,
+		-1.0f
+		);
 }
+
