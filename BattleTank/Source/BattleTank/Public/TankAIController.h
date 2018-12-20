@@ -16,11 +16,17 @@ class BATTLETANK_API ATankAIController : public AAIController
 	
 private:
 	virtual void BeginPlay() override;
+
+	virtual void SetPawn(APawn* InPawn) override;
+
 	virtual void Tick(float DeltaSeconds) override;
+
+	UFUNCTION()
+	void OnPossesedTankDeath();
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Settings") 
 	float AcceptanceRadius = 8000.f; //Used for Nav Calculations: How close to the player can the AI get
 		
-	
+public:
 };

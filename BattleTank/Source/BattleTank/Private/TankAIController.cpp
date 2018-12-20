@@ -1,6 +1,7 @@
 // Copyright MetalMuffin Entertainment 2018
 
-#include "Public/TankAIController.h"
+#include "Public/TankAIController.h" //MUST be first
+#include "Public/Tank.h"
 #include "Public/TankPlayerController.h"
 #include "Public/TankAimingComponent.h"
 #include "AIController.h"
@@ -13,6 +14,24 @@ void ATankAIController::BeginPlay()
 	Super::BeginPlay();
 
 	//..
+}
+
+void ATankAIController::SetPawn(APawn* InPawn)
+{
+	Super::SetPawn(InPawn);
+
+	if (InPawn)
+	{
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank))	{ return; }
+
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnPossesedTankDeath);
+	}
+}
+
+void ATankAIController::OnPossesedTankDeath()
+{
+	UE_LOG(LogTemp, Warning, TEXT("OOFF!!! I'm Dead......"))
 }
 
 void ATankAIController::Tick(float DeltaSeconds)

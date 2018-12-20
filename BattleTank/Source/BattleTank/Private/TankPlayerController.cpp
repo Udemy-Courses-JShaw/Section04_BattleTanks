@@ -1,6 +1,7 @@
 // Copyright MetalMuffin Entertainment 2018
 
-#include "Public/TankPlayerController.h"
+#include "Public/TankPlayerController.h" //MUST be first
+#include "Public/Tank.h"
 #include "Public/TankAimingComponent.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Engine/Engine.h"
@@ -16,6 +17,19 @@ void ATankPlayerController::BeginPlay()
 	UTankAimingComponent* AimingComponentRef = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponentRef)) { return; }
 	FoundAimingComponent(AimingComponentRef);
+}
+
+void ATankPlayerController::SetPawn(APawn* InPawn)
+{
+	Super::SetPawn(InPawn);
+
+	if (InPawn)
+	{
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnPossesedTankDeath);
+	}
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
@@ -42,10 +56,12 @@ void ATankPlayerController::AimAtCrosshair()
 // Get World location of linetrace through crosshair, true if hits landscape
 bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 {
-	//TODO : Complete GetSightRayHitLocation()
+	//Find Crosshair position in pixel coordinates
 	int32 ViewPortSizeX, ViewPortSizeY;
 	GetViewportSize(ViewPortSizeX, ViewPortSizeY);
 	FVector2D ScreenCrossHair = FVector2D(ViewPortSizeX * CrossHairXLocation, ViewPortSizeY * CrossHairYLocation);
+	
+	// "De-project" the screen position of the crosshair to a world direction
 	FVector LookDirection;
 	if (GetLookDirection(ScreenCrossHair, LookDirection))
 	{
@@ -61,17 +77,27 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 	FVector StartLocation = PlayerCameraManager->GetCameraLocation();
 	FVector EndLocation = StartLocation + (LookDirection * LineTraceRange);
 	
+	//Linetracing for debugging aiming issues: Leaving here for future reference
+	/*
+	const FName TraceTag("TraceTag");
+	GetWorld()->DebugDrawTraceTag = TraceTag;
+	FCollisionQueryParams CollisionParams;
+	CollisionParams.TraceTag = TraceTag;
+	*/
+	
 	if (GetWorld()->LineTraceSingleByChannel(
-		HitResult,
-		StartLocation,
-		EndLocation,
-		ECollisionChannel::ECC_Visibility)
+				HitResult,
+				StartLocation,
+				EndLocation,
+				ECollisionChannel::ECC_Visibility
+				//,CollisionParams
+				)
 		)
 	{
 		HitLocation = HitResult.Location;
 		return true;
 	}
-	//HitLocation = FVector(0);
+	HitLocation = FVector(0);
 	return false; //If Linetrace fails
 }
 
@@ -84,4 +110,9 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenCrossHair, FVector&
 		WorldLocation,
 		LookDirection
 	);
+}
+
+void ATankPlayerController::OnPossesedTankDeath()
+{
+	UE_LOG(LogTemp, Warning, TEXT("OOFF!!! I'm Dead......"))
 }
