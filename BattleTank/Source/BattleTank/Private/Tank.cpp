@@ -11,6 +11,14 @@ ATank::ATank()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	//TODO Add Destruction Particels
+}
+
+void ATank::BeginPlay()
+{
+	Super::BeginPlay();
+
+	CurrentHealth = StartingHealth;
 }
 
 float ATank::GetHealthPercent() const
@@ -27,6 +35,7 @@ float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEv
 	if (CurrentHealth <= 0)
 	{
 		OnDeath.Broadcast();
+		//TODO add DestructionBlast->Activate();
 	}
 	
 	return DamageToApply;

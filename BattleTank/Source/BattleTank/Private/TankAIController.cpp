@@ -22,7 +22,7 @@ void ATankAIController::SetPawn(APawn* InPawn)
 
 	if (InPawn)
 	{
-		auto PossessedTank = Cast<ATank>(InPawn);
+		ATank* PossessedTank = Cast<ATank>(InPawn);
 		if (!ensure(PossessedTank))	{ return; }
 
 		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnPossesedTankDeath);
@@ -31,9 +31,11 @@ void ATankAIController::SetPawn(APawn* InPawn)
 
 void ATankAIController::OnPossesedTankDeath()
 {
-	UE_LOG(LogTemp, Warning, TEXT("OOFF!!! I'm Dead......"))
+	if (!GetPawn()) { return; }
+	GetPawn()->DetachFromControllerPendingDestroy();
 }
 
+//Called EVERY Frame
 void ATankAIController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
