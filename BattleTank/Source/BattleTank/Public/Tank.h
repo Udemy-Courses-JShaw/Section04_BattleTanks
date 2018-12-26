@@ -9,6 +9,8 @@
 //Delegate Broadcast for OnDeath()
 DECLARE_DYNAMIC_MULTICAST_DELEGATE( FTankDelegate );
 
+//Forward Decalrations
+class AExplosionFragment;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -25,11 +27,11 @@ public:
 
 	FTankDelegate OnDeath;
 
-private:	
-	virtual void BeginPlay() override;
-
+private:
 	// Sets default values for this pawn's properties
 	ATank();
+
+	virtual void BeginPlay() override;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	int32 StartingHealth = 100;
@@ -37,4 +39,5 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Health")
 	int32 CurrentHealth; //Initialised in BeginPlay()
 
+	
 };

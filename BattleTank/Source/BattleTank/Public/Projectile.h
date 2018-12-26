@@ -6,7 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "PhysicsEngine/RadialForceComponent.h"
-#include "Projectile.generated.h"
+#include "Projectile.generated.h" //MUST be last
 
 class AProjectile;
 

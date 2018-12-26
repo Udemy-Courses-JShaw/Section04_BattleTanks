@@ -1,6 +1,9 @@
 // Copyright MetalMuffin Entertainment 2018
 
-#include "Public/Tank.h"
+#include "Public/Tank.h" //MUST be first
+#include "Engine/World.h"
+#include "GameFramework/Actor.h"
+#include "Public/ExplosionFragment.h"
 #include "Math/UnrealMathUtility.h"
 
 
@@ -11,7 +14,9 @@ ATank::ATank()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	//TODO Add Destruction Particels
+	//TODO Add ExplosionFragments
+
+	//AActor TankRoot = GetOwner();
 }
 
 void ATank::BeginPlay()
@@ -35,7 +40,7 @@ float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEv
 	if (CurrentHealth <= 0)
 	{
 		OnDeath.Broadcast();
-		//TODO add DestructionBlast->Activate();
+		
 	}
 	
 	return DamageToApply;

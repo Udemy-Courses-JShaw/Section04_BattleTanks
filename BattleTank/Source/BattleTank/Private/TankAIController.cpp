@@ -45,7 +45,7 @@ void ATankAIController::Tick(float DeltaSeconds)
 	APawn* PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
 
 	if (!ensure( ControlledTank )) { return; }
-	if (!ensure( PlayerTank )) { return; }
+	if (!ensure( PlayerTank )) { return; } //On Player death, this ensure fires off.
 	
 	// Move towards Player
 	MoveToActor(PlayerTank, AcceptanceRadius); //TODO check radius is in CM
