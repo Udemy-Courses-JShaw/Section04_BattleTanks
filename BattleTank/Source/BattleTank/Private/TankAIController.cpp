@@ -31,8 +31,9 @@ void ATankAIController::SetPawn(APawn* InPawn)
 
 void ATankAIController::OnPossesedTankDeath()
 {
-	if (!GetPawn()) { return; }
+	if (!ensure(GetPawn()))	{ return; }
 	GetPawn()->DetachFromControllerPendingDestroy();
+	UE_LOG(LogTemp, Error, TEXT("Controller Detatched!!")) //TODO remove
 }
 
 //Called EVERY Frame
@@ -43,7 +44,8 @@ void ATankAIController::Tick(float DeltaSeconds)
 	APawn* ControlledTank = GetPawn();
 	APawn* PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
 
-	if (!ensure(PlayerTank && ControlledTank )) { return; }
+	if (!ensure( ControlledTank )) { return; }
+	if (!ensure( PlayerTank )) { return; }
 	
 	// Move towards Player
 	MoveToActor(PlayerTank, AcceptanceRadius); //TODO check radius is in CM
