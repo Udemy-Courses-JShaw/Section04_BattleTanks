@@ -23,7 +23,7 @@ public:
 
 protected:
 	// Called when the game starts or when spawned
-	//virtual void BeginPlay() override;  //TODO Verify the need for BeginPlay()
+	virtual void BeginPlay() override;  //TODO Verify the need for BeginPlay()
 
 	UProjectileMovementComponent* ProjectileMovement = nullptr;
 
@@ -32,19 +32,13 @@ private:
 
 	float FragmentLaunchSpeed = 0.f;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	TSubclassOf<AExplosionFragment> ExplosionFragmentBlueprint;
-
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void Initialize(UTankTurret* TurretToSet);
-
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void DeathExplosion();
-
 	void OnTimerExpire();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	float DestroyDelay = 3.5f;
+	float DestroyDelay = 15.0f;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UStaticMeshComponent* CollisionMesh = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UParticleSystemComponent* FireTrail = nullptr;

@@ -11,6 +11,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE( FTankDelegate );
 
 //Forward Decalrations
 class AExplosionFragment;
+class UTankTurret;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -27,11 +28,18 @@ public:
 
 	FTankDelegate OnDeath;
 
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void DeathExplosion();
+
 private:
 	// Sets default values for this pawn's properties
 	ATank();
 
 	virtual void BeginPlay() override;
+
+	virtual void Tick(float DeltaTime) override;
+
+	FVector TankLocation = {};
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	int32 StartingHealth = 100;
@@ -39,5 +47,9 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Health")
 	int32 CurrentHealth; //Initialised in BeginPlay()
 
-	
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	TSubclassOf<AExplosionFragment> ExplosionFragmentBlueprint;
+
+	//Used in Deathexplosion()
+	FRotator GetRandonRotation();
 };
