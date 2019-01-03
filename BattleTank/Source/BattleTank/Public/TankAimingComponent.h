@@ -72,7 +72,7 @@ private:
 	float ReloadTimeInSeconds = 3;
 			
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float LaunchSpeed = 16700.f; 
+	float LaunchSpeed = 32000.f; 
 
 	double LastFireTime = 0;
 

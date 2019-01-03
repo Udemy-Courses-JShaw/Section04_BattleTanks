@@ -114,6 +114,5 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenCrossHair, FVector&
 
 void ATankPlayerController::OnPossesedTankDeath()
 {
-	UE_LOG(LogTemp, Warning, TEXT("OOFF!!! I'm Dead......"))
 	StartSpectatingOnly();
 }
