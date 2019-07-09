@@ -44,8 +44,7 @@ void ATankAIController::Tick(float DeltaSeconds)
 	APawn* ControlledTank = GetPawn();
 	APawn* PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
 
-	if (!ensure( ControlledTank )) { return; }
-	if (!( PlayerTank )) { return; } 
+	if (! (ControlledTank && PlayerTank ) ) { return; } 
 	
 	// Move towards Player
 	MoveToActor(PlayerTank, AcceptanceRadius); //TODO check radius is in CM

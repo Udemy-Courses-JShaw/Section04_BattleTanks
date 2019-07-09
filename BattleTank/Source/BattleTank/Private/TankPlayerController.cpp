@@ -78,18 +78,18 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 	FVector EndLocation = StartLocation + (LookDirection * LineTraceRange);
 	
 	//Linetracing for debugging aiming issues: Leaving here for future reference
-	/*
-	const FName TraceTag("TraceTag");
-	GetWorld()->DebugDrawTraceTag = TraceTag;
-	FCollisionQueryParams CollisionParams;
-	CollisionParams.TraceTag = TraceTag;
-	*/
+	
+	//const FName TraceTag("TraceTag");
+	//GetWorld()->DebugDrawTraceTag = TraceTag;
+	//FCollisionQueryParams CollisionParams;
+	//CollisionParams.TraceTag = TraceTag;
+	
 	
 	if (GetWorld()->LineTraceSingleByChannel(
 				HitResult,
 				StartLocation,
 				EndLocation,
-				ECollisionChannel::ECC_Visibility
+				ECollisionChannel::ECC_Camera
 				//,CollisionParams
 				)
 		)
