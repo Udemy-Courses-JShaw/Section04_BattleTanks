@@ -33,7 +33,7 @@ void ATankAIController::OnPossesedTankDeath()
 {
 	if (!ensure(GetPawn()))	{ return; }
 	GetPawn()->DetachFromControllerPendingDestroy();
-	UE_LOG(LogTemp, Error, TEXT("Controller Detatched!!")) //TODO remove
+	//UE_LOG(LogTemp, Error, TEXT("Controller Detatched!!")) //TODO remove
 }
 
 //Called EVERY Frame

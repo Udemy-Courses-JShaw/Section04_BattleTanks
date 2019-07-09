@@ -21,7 +21,7 @@ private:
 
 	virtual void Tick(float DeltaSeconds) override;
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void OnPossesedTankDeath();
 
 protected:
