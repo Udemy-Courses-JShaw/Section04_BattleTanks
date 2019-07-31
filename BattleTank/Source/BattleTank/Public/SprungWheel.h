@@ -6,11 +6,10 @@
 #include "GameFramework/Actor.h"
 #include "PhysicsEngine/PhysicsConstraintComponent.h"
 #include "Components/StaticMeshComponent.h"
-#include "Public/Tank.h"
+#include "Components/SphereComponent.h"
 
 #include "SprungWheel.generated.h" //must be last
 
-//class UTank;
 
 UCLASS()
 class BATTLETANK_API ASprungWheel : public AActor
@@ -31,10 +30,17 @@ public:
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
-	UStaticMeshComponent* Wheel = nullptr;
+	USphereComponent* Wheel = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
+	USphereComponent* Axle = nullptr;
+	
+	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UPhysicsConstraintComponent* MassWheelConstraint = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UPhysicsConstraintComponent* AxleWheelConstraint = nullptr;
+
 
 	void SetupConstraint();
 };
