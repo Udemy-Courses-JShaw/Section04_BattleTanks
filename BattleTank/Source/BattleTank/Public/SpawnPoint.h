@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/SceneComponent.h"
 #include "GameFramework/Actor.h"
+#include "Public/SprungWheel.h"
 
 #include "SpawnPoint.generated.h" //Last
 
@@ -26,8 +27,13 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	AActor* GetSpawnedActor() const { return SpawnedActor; }
+
 private:
 	//Class Config
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AActor> SpawnClass;
+
+	UPROPERTY()
+	AActor* SpawnedActor;
 };

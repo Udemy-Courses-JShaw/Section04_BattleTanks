@@ -4,6 +4,7 @@
 #include "SprungWheel.h"
 
 
+
 // Sets default values
 ASprungWheel::ASprungWheel()
 {
@@ -14,13 +15,17 @@ ASprungWheel::ASprungWheel()
 	SetRootComponent(MassWheelConstraint);
 
 	Axle = CreateDefaultSubobject<USphereComponent>(FName("Axle"));
-	Axle->SetupAttachment(MassWheelConstraint);
+	//Axle->SetupAttachment(MassWheelConstraint);
+	Axle->AttachToComponent(MassWheelConstraint, FAttachmentTransformRules::KeepRelativeTransform);
+	
 
 	Wheel = CreateDefaultSubobject<USphereComponent>(FName("Wheel"));
-	Wheel->SetupAttachment(Axle);
+	//Wheel->SetupAttachment(Axle);
+	Wheel->AttachToComponent(Axle, FAttachmentTransformRules::KeepRelativeTransform);
 
 	AxleWheelConstraint = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("AxleWheelConstraint"));
-	AxleWheelConstraint->SetupAttachment(Axle);
+	//AxleWheelConstraint->SetupAttachment(Axle);
+	AxleWheelConstraint->AttachToComponent(Axle, FAttachmentTransformRules::KeepRelativeTransform);
 
 }
 
@@ -38,6 +43,11 @@ void ASprungWheel::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ASprungWheel::AddDrivingForce(float ForceMagnitude)
+{
+	Wheel->AddForce(Axle->GetForwardVector() * ForceMagnitude);
 }
 
 void ASprungWheel::SetupConstraint()
