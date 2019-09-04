@@ -22,6 +22,7 @@ void ATank::BeginPlay()
 	Super::BeginPlay();
 
 	CurrentHealth = StartingHealth;
+	IsTankDead = false;
 }
 
 void ATank::Tick(float DeltaTime)
@@ -69,9 +70,10 @@ float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEv
 	int32 DamageToApply = FMath::Clamp(DamagePoints, 0, CurrentHealth);
 
 	CurrentHealth -= DamageToApply;
-	if (CurrentHealth <= 0)
+	if (CurrentHealth <= 0 && IsTankDead == false)
 	{
 		DeathExplosion();
+		IsTankDead = true;
 		OnDeath.Broadcast();
 	}
 	

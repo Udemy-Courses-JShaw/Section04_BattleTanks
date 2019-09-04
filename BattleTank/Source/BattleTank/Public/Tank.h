@@ -29,6 +29,9 @@ public:
 
 	FTankDelegate OnDeath;
 
+	UPROPERTY(BlueprintReadWrite, Category = "Player Status")
+	bool IsTankDead = false;
+
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void DeathExplosion();
 

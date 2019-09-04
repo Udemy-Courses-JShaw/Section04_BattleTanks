@@ -21,11 +21,11 @@ TArray<ASprungWheel*> UTankTrack::GetWheels() const
 	GetChildrenComponents(true, Children);
 	for (USceneComponent* Child : Children)
 	{
-		auto SpawnPointChild = Cast<USpawnPoint>(Child);
+		USpawnPoint* SpawnPointChild = Cast<USpawnPoint>(Child);
 		if (!SpawnPointChild) continue;
 
 		AActor* SpawnedChild = SpawnPointChild->GetSpawnedActor();
-		auto SprungWheel = Cast<ASprungWheel>(SpawnedChild);
+		ASprungWheel* SprungWheel = Cast<ASprungWheel>(SpawnedChild);
 		if (!SprungWheel) continue;
 
 		ResultsArray.Add(SprungWheel);

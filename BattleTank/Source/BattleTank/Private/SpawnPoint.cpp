@@ -37,7 +37,3 @@ void USpawnPoint::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 	// ...
 }
 
-//AActor* USpawnPoint::GetSpawnedActor() const
-//{
-//	return SpawnedActor;
-//}
