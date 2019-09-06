@@ -21,6 +21,7 @@ class BATTLETANK_API ATank : public APawn
 
 public:
 
+	UFUNCTION(BlueprintCallable, Category = "Health")
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser) override;
 
 	//Returns health as a % of starting health between 0 ,1
@@ -55,5 +56,8 @@ private:
 	TSubclassOf<AExplosionFragment> ExplosionFragmentBlueprint;
 
 	//Used in Deathexplosion()
-	FRotator GetRandonRotation();
+	FRotator GetRandomRotation();
+
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	void KillPlayer();
 };

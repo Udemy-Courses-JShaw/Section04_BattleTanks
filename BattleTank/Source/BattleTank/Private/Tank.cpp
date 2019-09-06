@@ -49,14 +49,14 @@ void ATank::DeathExplosion()
 		AExplosionFragment* ExplosionFragment = GetWorld()->SpawnActor<AExplosionFragment>(
 			ExplosionFragmentBlueprint,
 			TankLocation, //Location
-			GetRandonRotation() //Rotation
+			GetRandomRotation() //Rotation
 			);
 		ExplosionFragment->LaunchFragments(FragmentLaunchSpeed); 
 	}
 }
 
 // Creates a randon rotator for Explosion Fragment dispersion; ideally in a half sphere
-FRotator ATank::GetRandonRotation()
+FRotator ATank::GetRandomRotation()
 {
 	const float pitch = FMath::FRandRange(0.f, 360.f);
 	const float yaw = FMath::FRandRange(0.f, 360.f);
@@ -72,10 +72,17 @@ float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEv
 	CurrentHealth -= DamageToApply;
 	if (CurrentHealth <= 0 && IsTankDead == false)
 	{
-		DeathExplosion();
-		IsTankDead = true;
-		OnDeath.Broadcast();
+		KillPlayer();
 	}
 	
 	return DamageToApply;
+}
+
+void ATank::KillPlayer()
+{
+	IsTankDead = true;
+	OnDeath.Broadcast();
+	DeathExplosion();
+
+	//More called in Blueprint
 }
