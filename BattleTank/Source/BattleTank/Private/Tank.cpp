@@ -44,7 +44,7 @@ void ATank::DeathExplosion()
 	int32 NumberOfFragments = FMath::RandRange(4, 10);
 	for (NumberOfFragments; NumberOfFragments >= 0; NumberOfFragments--)
 	{
-		float FragmentLaunchSpeed = FMath::RandRange(900.f, 15000.f); 
+		float FragmentLaunchSpeed = FMath::RandRange(0.1f, 1.7f); 
 
 		AExplosionFragment* ExplosionFragment = GetWorld()->SpawnActor<AExplosionFragment>(
 			ExplosionFragmentBlueprint,
@@ -66,6 +66,8 @@ FRotator ATank::GetRandomRotation()
 
 float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser)
 {
+	Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	
 	int32 DamagePoints = FPlatformMath::RoundToInt(DamageAmount);
 	int32 DamageToApply = FMath::Clamp(DamagePoints, 0, CurrentHealth);
 
