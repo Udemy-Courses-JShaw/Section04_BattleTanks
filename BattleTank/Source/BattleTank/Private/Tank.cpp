@@ -66,12 +66,13 @@ FRotator ATank::GetRandomRotation()
 
 float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser)
 {
-	Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
-	
+	//Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	//UE_LOG(LogTemp, Warning, TEXT("Super::TakeDamage()"))
 	int32 DamagePoints = FPlatformMath::RoundToInt(DamageAmount);
 	int32 DamageToApply = FMath::Clamp(DamagePoints, 0, CurrentHealth);
 
 	CurrentHealth -= DamageToApply;
+		
 	if (CurrentHealth <= 0 && IsTankDead == false)
 	{
 		KillPlayer();
