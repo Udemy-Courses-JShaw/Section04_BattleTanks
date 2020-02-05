@@ -39,7 +39,7 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	{
 		FiringStatus = EFiringStatus::Aiming;
 	}
-	else if (LastFireTime + ReloadTimeInSeconds <= GetWorld()->GetTimeSeconds())
+	else if (LastFireTime + ReloadTimeInSeconds >= GetWorld()->GetTimeSeconds())
 	{
 		FiringStatus = EFiringStatus::Reloading;
 	}
@@ -48,7 +48,6 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 		FiringStatus = EFiringStatus::Ready;
 	}
 
-	
 }
 
 EFiringStatus UTankAimingComponent::GetFiringState() const
@@ -87,6 +86,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 			0.f,
 			ESuggestProjVelocityTraceOption::DoNotTrace
 		);
+
 	if (bHasAimSolution)
 	{
 		AimDirection = OutLaunchVelocity.GetSafeNormal();
@@ -100,11 +100,8 @@ void UTankAimingComponent::Fire()
 	if (!ensure(Barrel)) { return; }
 	if (!ensure(ProjectileBluePrint)) { return; }
 
-	if (AmmoCount <= 0)
-	{
-		FiringStatus = EFiringStatus::OutOfAmmo;
-	}
-	else if (FiringStatus != EFiringStatus::Ready || FiringStatus != EFiringStatus::OutOfAmmo)
+	if (FiringStatus != EFiringStatus::Reloading || 
+		FiringStatus != EFiringStatus::OutOfAmmo )
 	{
 		AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBluePrint,
@@ -113,12 +110,12 @@ void UTankAimingComponent::Fire()
 			);
 
 		Projectile->LaunchProjectile(LaunchSpeed);
+
+		//Sets Reload Timer
 		LastFireTime = GetWorld()->GetTimeSeconds();
 		AmmoCount--;
-		UE_LOG(LogTemp, Warning, TEXT("FireTime: %f"), LastFireTime + ReloadTimeInSeconds)
+		//UE_LOG(LogTemp, Warning, TEXT("FireTime: %f"), LastFireTime + ReloadTimeInSeconds)
 	}
-
-		UE_LOG(LogTemp, Warning, TEXT("Sys Time: %f"), GetWorld()->GetTimeSeconds())
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
@@ -146,4 +143,9 @@ bool UTankAimingComponent::IsBarrelMoving()
 	FVector BarrelForward = Barrel->GetForwardVector();
 	return !BarrelForward.Equals(AimDirection, 0.1);
 	
+}
+
+float UTankAimingComponent::GetLastFireTime()
+{
+	return LastFireTime;
 }

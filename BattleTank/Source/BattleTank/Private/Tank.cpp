@@ -3,6 +3,7 @@
 #include "Public/Tank.h" //MUST be first
 #include "Engine/World.h"
 #include "GameFramework/Actor.h"
+#include "Kismet/GameplayStatics.h"
 #include "Public/ExplosionFragment.h"
 #include "Math/UnrealMathUtility.h"
 
@@ -40,6 +41,11 @@ float ATank::GetHealthPercent() const
 void ATank::DeathExplosion()
 {
 	if (!ensure(ExplosionFragmentBlueprint)) { return; }
+	// try and play the sound if specified
+	if (DeathSound != NULL)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation());
+	}
 
 	int32 NumberOfFragments = FMath::RandRange(4, 10);
 	for (NumberOfFragments; NumberOfFragments >= 0; NumberOfFragments--)

@@ -36,6 +36,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void DeathExplosion();
 
+	/** Sound to play each time we fire */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
+	class USoundBase* FireSound;
+
+	/** Sound to play each time tank dies */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
+	class USoundBase* DeathSound;
+
 private:
 	// Sets default values for this pawn's properties
 	ATank();

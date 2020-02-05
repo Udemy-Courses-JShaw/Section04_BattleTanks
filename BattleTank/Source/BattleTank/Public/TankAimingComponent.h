@@ -11,7 +11,7 @@
 */
 
 //Enum for aiming state
-UENUM()
+UENUM(BlueprintType)
 enum class EFiringStatus : uint8
 {
 	Reloading,
@@ -46,6 +46,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	int32 GetRoundsLeft() const;
 
+	UPROPERTY(BlueprintReadWrite, Category = "Firing")
+	float LastFireTime = 0;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Firing")
+	float ReloadTimeInSeconds = 3;
+
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringStatus FiringStatus = EFiringStatus::Reloading;
@@ -67,14 +73,12 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	int32 AmmoCount = 2;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float ReloadTimeInSeconds = 3;
 			
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 32000.f; 
 
-	double LastFireTime = 0;
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	float GetLastFireTime();
 
 	FVector AimDirection = {};
 
