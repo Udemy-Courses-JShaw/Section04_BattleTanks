@@ -72,7 +72,7 @@ private:
 	UTankTurret* Turret = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	int32 AmmoCount = 2;
+	int32 AmmoCount = 20;
 			
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 32000.f; 
@@ -84,4 +84,5 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBluePrint;
+
 };

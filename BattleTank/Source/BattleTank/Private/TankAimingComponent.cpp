@@ -35,13 +35,13 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	{
 		FiringStatus = EFiringStatus::OutOfAmmo;
 	}
-	else if (IsBarrelMoving())
-	{
-		FiringStatus = EFiringStatus::Aiming;
-	}
 	else if (LastFireTime + ReloadTimeInSeconds >= GetWorld()->GetTimeSeconds())
 	{
 		FiringStatus = EFiringStatus::Reloading;
+	}
+	else if (IsBarrelMoving())
+	{
+		FiringStatus = EFiringStatus::Aiming;
 	}
 	else
 	{
@@ -100,20 +100,24 @@ void UTankAimingComponent::Fire()
 	if (!ensure(Barrel)) { return; }
 	if (!ensure(ProjectileBluePrint)) { return; }
 
-	if (FiringStatus != EFiringStatus::Reloading || 
-		FiringStatus != EFiringStatus::OutOfAmmo )
+	if (GetFiringState() == EFiringStatus::Reloading || GetFiringState() == EFiringStatus::OutOfAmmo)
+	{ 
+		return ;
+	}
+
+	if (GetFiringState() == EFiringStatus::Aiming || GetFiringState() == EFiringStatus::Ready )
 	{
 		AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBluePrint,
 			Barrel->GetSocketLocation(FName("Projectile")),
 			Barrel->GetSocketRotation(FName("Projectile"))
 			);
+		AmmoCount--;
 
 		Projectile->LaunchProjectile(LaunchSpeed);
 
 		//Sets Reload Timer
 		LastFireTime = GetWorld()->GetTimeSeconds();
-		AmmoCount--;
 		//UE_LOG(LogTemp, Warning, TEXT("FireTime: %f"), LastFireTime + ReloadTimeInSeconds)
 	}
 }
