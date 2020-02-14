@@ -8,7 +8,7 @@ void UTankTurret::Rotate(float RelativeRotaitonIn)
 {
 	float RelativeSpeed = FMath::Clamp<float>(RelativeRotaitonIn, -20, 20);
 	float RotationChange = RelativeSpeed * MaxDegreesPerSecond * GetWorld()->DeltaTimeSeconds;
-	float Rotation = RelativeRotation.Yaw + RotationChange;
+	float Rotation = GetRelativeRotation().Yaw + RotationChange;
 
 	SetRelativeRotation(FRotator(0, Rotation, 0));
 }
