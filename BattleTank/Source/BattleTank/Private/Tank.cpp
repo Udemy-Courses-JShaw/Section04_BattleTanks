@@ -38,6 +38,16 @@ float ATank::GetHealthPercent() const
 	return (float)CurrentHealth / (float)StartingHealth;
 }
 
+int32 ATank::GetHealth() const
+{
+	return CurrentHealth;
+}
+
+void ATank::SetHealth(int32 Health)
+{
+	CurrentHealth = Health;
+}
+
 void ATank::DeathExplosion()
 {
 	if (!ensure(ExplosionFragmentBlueprint)) { return; }

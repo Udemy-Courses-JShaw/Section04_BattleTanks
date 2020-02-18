@@ -60,6 +60,16 @@ int32 UTankAimingComponent::GetRoundsLeft() const
 	return AmmoCount;
 }
 
+int32 UTankAimingComponent::GetAmmoCount() const
+{
+	return AmmoCount;
+}
+
+void UTankAimingComponent::SetAmmoCount(int32 AmmoIn)
+{
+	AmmoCount = AmmoIn;
+}
+
 void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
 {
 	Turret = TurretToSet;

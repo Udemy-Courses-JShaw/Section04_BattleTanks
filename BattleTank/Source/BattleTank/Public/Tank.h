@@ -28,6 +28,12 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Health")
 	float GetHealthPercent() const;
 
+	UFUNCTION(BlueprintPure, Category = "Health")
+	int32 GetHealth() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	void SetHealth(int32 Health);
+
 	FTankDelegate OnDeath;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Player Status")

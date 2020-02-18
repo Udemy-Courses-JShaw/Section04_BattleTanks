@@ -46,6 +46,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	int32 GetRoundsLeft() const;
 
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	int32 GetAmmoCount() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void SetAmmoCount(int32 AmmoIn);
+ 
 	UPROPERTY(BlueprintReadWrite, Category = "Firing")
 	float LastFireTime = 0;
 
@@ -55,6 +61,9 @@ public:
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringStatus FiringStatus = EFiringStatus::Reloading;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	int32 AmmoCount = 20;
 	
 private:
 	// Sets default values for this component's properties
@@ -70,9 +79,6 @@ private:
 
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	int32 AmmoCount = 20;
 			
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 32000.f; 
