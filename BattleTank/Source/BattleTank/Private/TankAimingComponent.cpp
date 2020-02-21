@@ -60,11 +60,6 @@ int32 UTankAimingComponent::GetRoundsLeft() const
 	return AmmoCount;
 }
 
-int32 UTankAimingComponent::GetAmmoCount() const
-{
-	return AmmoCount;
-}
-
 void UTankAimingComponent::SetAmmoCount(int32 AmmoIn)
 {
 	AmmoCount = AmmoIn;
@@ -76,6 +71,11 @@ void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* Tur
 	Barrel = BarrelToSet;
 }
 
+UTankBarrel* UTankAimingComponent::GetBarrelReference()
+{
+	return Barrel;
+}
+
 
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
@@ -83,6 +83,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 
 	FVector OutLaunchVelocity; //OUT Parameter
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
+
 
 	//Calculate the OutLaunchVelocity
 	bool bHasAimSolution = UGameplayStatics::SuggestProjectileVelocity(

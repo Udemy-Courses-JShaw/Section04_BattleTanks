@@ -36,18 +36,21 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
+	UPROPERTY(BlueprintReadOnly)
+	FVector2D SecondaryCrosshairLocation;
+
 	void AimAt(FVector HitLocation);
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Fire();
+	
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	UTankBarrel* GetBarrelReference();
 
 	EFiringStatus GetFiringState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	int32 GetRoundsLeft() const;
-
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	int32 GetAmmoCount() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetAmmoCount(int32 AmmoIn);
