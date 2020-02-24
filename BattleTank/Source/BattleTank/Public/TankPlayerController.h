@@ -51,4 +51,5 @@ private:
 protected:	
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 	void FoundAimingComponent(UTankAimingComponent* AimCompRef); //Custom event
+
 };

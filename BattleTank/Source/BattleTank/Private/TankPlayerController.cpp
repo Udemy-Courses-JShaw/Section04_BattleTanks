@@ -53,14 +53,30 @@ void ATankPlayerController::AimAtCrosshair()
 	}
 }
 
-// Get World location of linetrace through crosshair, true if hits landscape
+/* 
+** Get World location of linetrace through crosshair, true if hits landscape
+** Also calculates the barrel reticle reference
+*/
 bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 {
 	//Find Crosshair position in pixel coordinates
 	int32 ViewPortSizeX, ViewPortSizeY;
 	GetViewportSize(ViewPortSizeX, ViewPortSizeY);
+
+	UTankAimingComponent* AimingComponentRef = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponentRef)) { return 0; }
 	FVector2D ScreenCrossHair = FVector2D(ViewPortSizeX * CrossHairXLocation, ViewPortSizeY * CrossHairYLocation);
-	
+
+	FVector FiringLocation = AimingComponentRef->GetBarrelReference()->GetSocketLocation("Projectile");
+	FVector EndLocation = FiringLocation + (AimingComponentRef->GetBarrelReference()->GetForwardVector() * 5000.f);
+	FVector2D ScreenLocation;
+	ProjectWorldLocationToScreen(EndLocation, ScreenLocation);
+	float adjustedX = ScreenLocation.X / ViewPortSizeX;
+	float adjustedY = ScreenLocation.Y / ViewPortSizeY;
+
+	FVector2D adjustedScreenLocation = FVector2D(adjustedX, adjustedY);
+	AimingComponentRef->SecondaryCrosshairLocation = adjustedScreenLocation;
+
 	// "De-project" the screen position of the crosshair to a world direction
 	FVector LookDirection;
 	if (GetLookDirection(ScreenCrossHair, LookDirection))
@@ -104,24 +120,6 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 bool ATankPlayerController::GetLookDirection(FVector2D ScreenCrossHair, FVector& LookDirection) const
 {
 	FVector WorldLocation; //Discarded
-
-	FVector2D ScreenLocation;
-	int32 viewSizeX, viewSizeY;
-	GetViewportSize(viewSizeX, viewSizeY);
-
-	float adjustedX = ScreenLocation.X / viewSizeX;
-	float adjustedY = ScreenLocation.Y / viewSizeY;
-	UTankAimingComponent* AimingComponentRef = GetPawn()->FindComponentByClass<UTankAimingComponent>();
-	if (!ensure(AimingComponentRef)) { return 0; }
-
-	FVector StartLocation = AimingComponentRef->GetBarrelReference()->GetSocketLocation(FName("Projectile"));
-	FVector EndLocation = StartLocation + (AimingComponentRef->GetBarrelReference()->GetForwardVector() * 5000.f);
-
-
-	ProjectWorldLocationToScreen(EndLocation, ScreenLocation);
-
-	FVector2D adjustedScreenLocation = FVector2D(adjustedX, adjustedY);
-	AimingComponentRef->SecondaryCrosshairLocation = adjustedScreenLocation;
 	
 	return DeprojectScreenPositionToWorld(
 		ScreenCrossHair.X,
@@ -135,3 +133,5 @@ void ATankPlayerController::OnPossesedTankDeath()
 {
 	StartSpectatingOnly();
 }
+
+
