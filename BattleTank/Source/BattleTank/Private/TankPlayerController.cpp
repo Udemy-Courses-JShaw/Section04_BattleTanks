@@ -63,6 +63,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 	int32 ViewPortSizeX, ViewPortSizeY;
 	GetViewportSize(ViewPortSizeX, ViewPortSizeY);
 
+	//Calculation or Barrel Reference reticle (SecondaryCrosshairLocation)
 	UTankAimingComponent* AimingComponentRef = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponentRef)) { return 0; }
 	FVector2D ScreenCrossHair = FVector2D(ViewPortSizeX * CrossHairXLocation, ViewPortSizeY * CrossHairYLocation);
@@ -99,7 +100,6 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 	//GetWorld()->DebugDrawTraceTag = TraceTag;
 	//FCollisionQueryParams CollisionParams;
 	//CollisionParams.TraceTag = TraceTag;
-	
 	
 	if (GetWorld()->LineTraceSingleByChannel(
 				HitResult,
