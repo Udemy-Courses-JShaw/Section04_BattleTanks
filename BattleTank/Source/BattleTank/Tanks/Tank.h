@@ -50,7 +50,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
 	class USoundBase* DeathSound;
 
-private:
+//private:
+protected:
 	// Sets default values for this pawn's properties
 	ATank();
 

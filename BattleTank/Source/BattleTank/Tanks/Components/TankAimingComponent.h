@@ -39,6 +39,7 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	FVector2D SecondaryCrosshairLocation;
 
+	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void AimAt(FVector HitLocation);
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")

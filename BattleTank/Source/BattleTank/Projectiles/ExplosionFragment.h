@@ -23,7 +23,7 @@ public:
 
 protected:
 	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;  //TODO Verify the need for BeginPlay()
+	virtual void BeginPlay() override;
 
 	UProjectileMovementComponent* ProjectileMovement = nullptr;
 

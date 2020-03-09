@@ -18,5 +18,8 @@ class BATTLETANK_API UChooseNextWaypoint : public UBTTaskNode
 
 protected:
 	UPROPERTY(EditAnywhere, Category = "Blackboard")
-	struct FBlackboardKeySelector BBIndexKey;
+	struct FBlackboardKeySelector IndexKey;
+
+	UPROPERTY(EditAnywhere, Category = "Blackboard")
+	struct FBlackboardKeySelector WaypointKey;
 };

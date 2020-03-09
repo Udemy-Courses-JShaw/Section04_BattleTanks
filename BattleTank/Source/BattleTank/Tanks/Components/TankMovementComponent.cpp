@@ -28,7 +28,6 @@ void UTankMovementComponent::IntendMoveForward(float Throw)
 	if (!ensure(LeftTrack && RightTrack)) { return; }
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
-	//TODO Prevent 2x throttle
 }
 
 void UTankMovementComponent::IntendRotateClockwise(float Throw)
