@@ -62,6 +62,24 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Firing")
 	float ReloadTimeInSeconds = 3;
 
+	UPROPERTY(BlueprintReadOnly, Category = "Firing")
+	FRotator BarrelElevation;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Firing")
+	FRotator AimAsRotation;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Firing")
+	FRotator DeltaAim;
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	FRotator GetBarrelElevation();
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	FRotator GetAimAsRotation();
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	FRotator GetDeltaAim();
+
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringStatus FiringStatus = EFiringStatus::Reloading;
@@ -77,7 +95,7 @@ private:
 
 	void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickfunction);
 
-	void MoveBarrelTowards(FVector AimDirection);
+	void MoveBarrelTowards(FVector BarrelAimDirection);
 
 	bool IsBarrelMoving();
 
@@ -90,7 +108,7 @@ private:
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 	float GetLastFireTime();
 
-	FVector AimDirection = {};
+	FVector AimDirection; //= {};
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBluePrint;

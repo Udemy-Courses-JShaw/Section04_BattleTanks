@@ -15,6 +15,7 @@ class BATTLETANK_API UTankBarrel : public UStaticMeshComponent
 
 public:
 	//-1 is max downward movement speed, +1 is max upward speed of barrel
+	UFUNCTION(BlueprintCallable, Category = "Aiming")
 	void Elevate(float RelativeSpeedIn);
 	
 private:

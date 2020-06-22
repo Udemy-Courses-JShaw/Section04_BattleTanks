@@ -29,6 +29,12 @@ void UTankAimingComponent::BeginPlay()
 	LastFireTime = GetWorld()->GetTimeSeconds();
 }
 
+void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
+{
+	Turret = TurretToSet;
+	Barrel = BarrelToSet;
+}
+
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickfunction)
 {
 	if (GetRoundsLeft() <= 0)
@@ -63,12 +69,6 @@ int32 UTankAimingComponent::GetRoundsLeft() const
 void UTankAimingComponent::SetAmmoCount(int32 AmmoIn)
 {
 	AmmoCount = AmmoIn;
-}
-
-void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
-{
-	Turret = TurretToSet;
-	Barrel = BarrelToSet;
 }
 
 UTankBarrel* UTankAimingComponent::GetBarrelReference()
@@ -133,13 +133,14 @@ void UTankAimingComponent::Fire()
 	}
 }
 
-void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
+void UTankAimingComponent::MoveBarrelTowards(FVector BarrelAimDirection)
 {
 	if (!ensure(Barrel) || !ensure(Turret)) { return; }
+
 	// find diff between current barrel rotation and AimDirection
-	FRotator BarrelElevation = Barrel->GetForwardVector().Rotation();
-	FRotator AimAsRotation = AimDirection.Rotation();
-	FRotator DeltaAim = AimAsRotation - BarrelElevation;
+	BarrelElevation = Barrel->GetForwardVector().Rotation();
+	AimAsRotation = BarrelAimDirection.Rotation();
+	DeltaAim = AimAsRotation - BarrelElevation;
 
 	Barrel->Elevate(DeltaAim.Pitch);
 	if (FMath::Abs(DeltaAim.Yaw) < 180)
@@ -156,11 +157,26 @@ bool UTankAimingComponent::IsBarrelMoving()
 {
 	if (!ensure(Barrel)) { return false; }
 	FVector BarrelForward = Barrel->GetForwardVector();
-	return !BarrelForward.Equals(AimDirection, 0.1);
 	
+	return !BarrelForward.Equals(AimDirection, 0.1);
 }
 
 float UTankAimingComponent::GetLastFireTime()
 {
 	return LastFireTime;
+}
+
+FRotator UTankAimingComponent::GetBarrelElevation()
+{
+	return BarrelElevation;
+}
+
+FRotator UTankAimingComponent::GetAimAsRotation()
+{
+	return AimAsRotation;
+}
+
+FRotator UTankAimingComponent::GetDeltaAim()
+{
+	return DeltaAim;
 }
